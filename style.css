@@ -6,6 +6,12 @@ html, body {
     box-sizing: border-box;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+}
+
+
 .container {
     font-family: Verdana, Geneva, sans-seriff;
     display: flex;
@@ -77,6 +83,7 @@ html, body {
     flex:1;
     margin-top: 2%;
     margin-bottom: 2%;
+    min-height: 800px;
 }
 
 .content-container {
