@@ -7,6 +7,7 @@ html, body {
 }
 
 .container {
+    font-family: Verdana, Geneva, sans-seriff;
     display: flex;
     flex-direction: column;
     padding-left: 5%;
@@ -17,7 +18,8 @@ html, body {
 .container-navbar {
     align-items: stretch;
     height: auto;
-    background-color: lightblue;
+    margin-bottom: 10px;
+    box-shadow: 0px 5px 15px black;
 }
     
 .navbar {
@@ -27,13 +29,34 @@ html, body {
     justify-content: space-between;
     padding:0;
     margin:0;
+    font-family: Verdana, Geneva, sans-seriff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-bottom-color: transparent;
+    border-top-style: solid;
+    border-top-color: transparent;
+    text-shadow: 2px 1px 0px rgba(255,255,255,1);
 }
 
-.navbar li {
-    border: 5px solid salmon;  
+.navbar li {  
     padding: 0; 
     text-align: center;
     flex:1;
+}
+
+.navbar li a {
+    text-decoration: none;
+    display: block;
+    color: black;
+}
+
+.navbar a:hover {
+    background: rgba(235, 39, 53,   1);
+    color: white;
+    box-shadow: 0px 5px 15px grey;
+    text-shadow: 2px 2px black;
 }
 
 .spacer {
@@ -52,6 +75,8 @@ html, body {
     justify-content: center;
     padding: 5px;
     flex:1;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .content-container {
@@ -65,27 +90,37 @@ html, body {
     display: flex;
     flex-direction: column;
     flex: .8;
-    background-color: lightblue;
-    border: 5px solid salmon;
     margin-right: 5px;
+    box-shadow: 0px 5px 15px black;
+    margin-right: 2%;
 }
+
+
 
 .article-container {
     display:flex;
     flex-direction: column;
     flex: 1;
+    
 }
 
 .article {
     height: 100%;
-    background-color: lightblue;
-    border: 5px solid salmon;
     flex:1;
+    box-shadow: 0px 10px 10px grey;
+    margin-top: 2%;
+}
+
+.article.odd:hover {
+    box-shadow: 5px 5px 1px rgba(235, 39, 53,   1);
+}
+
+.article.even:hover {
+    box-shadow: 5px 5px 1px rgba(72, 73, 252,   1);
 }
 
 .right-container {
     display: flex;
     flex: .2;
-    background-color: lightblue;
-    border: 5px solid salmon;
+    box-shadow: 0px 5px 15px black;
 }
