@@ -11,14 +11,15 @@ html, body {
     font-family: Verdana, Geneva, sans-seriff;
     display: flex;
     flex-direction: column;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 15%;
+    padding-right: 15%;
     height: 100%;
 }
 
 header {
     display: flex;
     flex-direction: column;
+    margin: 15px;
 }
 
 .title-logo-container {
@@ -35,6 +36,8 @@ header {
     
 .navbar {
     /*background-image: url(texture_red.png);*/
+    width: 100%;
+    height: 100%;
     background-color: #e9252f;
     list-style-type: none;
     display:flex;
@@ -45,30 +48,33 @@ header {
     font-family: Verdana, Geneva, sans-seriff;
     font-weight: bold;
     text-transform: uppercase;
-    border-bottom-style: solid;
-    border-width: 2px;
-    border-bottom-color: transparent;
-    border-top-style: solid;
-    border-top-color: transparent;
+    align-items: stretch;
+
 }
 
 .navbar li {  
-    padding: 0; 
     text-align: center;
+    height: 100%;
     flex:1;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
 }
 
 .navbar li a {
-    display: block;
-    padding: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
     text-decoration: none;
-    display: block;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     color: white;
-    text-shadow: 2px 2px black
+    text-shadow: 2px 2px black;
 }
 
-.navbar a:hover {
-    transform:scale(1.1);
+.navbar li a:hover {
+    /*transform:scale(1.1); nefunguje dobre pri nizkych rozliseniach*/
     /*background-image: url(texture.png);*/
     background-color: #474afb;
     color: white;
@@ -94,12 +100,17 @@ header {
     display: flex;
     flex-direction: column;
     flex: .8;
-    align-items: center;
+    align-items: stretch;
     margin-right: 2%;
 }
 
 .slide-show {
+    flex: 1;
     min-height: 300px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 5px 15px black;
+    margin:15px;
 }
 
 .slide-show img {
@@ -113,27 +124,35 @@ header {
     background-color: white;
     flex: .6;
     box-shadow: 0px 5px 15px black;
-    margin: 15px;  
+    margin: 15px;
+    max-height: 160px; 
 }
 
-
 .picture-container {
+    width: 230px;
     display: flex;
-    flex: 0.4;
+    /*flex: 0.4;*/
     margin-right: 2%;
 }
 
 .picture-container img {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
 }
 
 .article {
-    height: 100%;
-    flex:1;
+    flex: 1;
     margin-bottom: 2%;
     margin-right: 2%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: 4;
+    -webkit-line-clamp: 4; /*toto je dobugovane neviem preco, ale funguje*/
+    -webkit-box-orient: vertical;
+    line-height: 1.5;               
+    max-height: calc(5em * 4); 
     /*box-shadow: 0px 10px 10px grey;*/
     /*margin-top: 2%;*/
 }
@@ -151,38 +170,109 @@ header {
 .right-container {
     display: flex;
     flex-direction: column;
-    flex: .2;
+    flex: .3;
+    margin: 15px;
 }
 
-.right-item {
+.section {
     margin-bottom: 20px;
-    box-shadow: 0px 0px 15px black;
+    /*box-shadow: 0px 0px 15px black;*/
 }
 
-.right-container .article-container {
-    flex: .1;
-}
-
-.right-container .heading {
+.section-header {
     box-shadow: 0px 5px 15px black;
 }
 
-.right-container .article-container .heading {
+.section .article-container {
+    flex: .1;
+    align-items: center;
+    height: 40px;
+}
+
+.section .article-container .heading {
     flex: 1;
     text-align: left;
 }
 
-.right-container img {
+.section .picture-container {
+    width: 80px;
+    height: 40px;
+}
+
+.section img {
     height: 100%;
     width: 100%;
     object-fit: cover;
 }
 
-.right-container .heading {
+.section h4 {
+    display: -webkit-box; 
+    line-clamp: 2;         
+    -webkit-line-clamp: 2;         
+    -webkit-box-orient: vertical;     
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    min-height: 50px;
     
 }
 
 footer {
     text-align: center;
+}
+
+@media (max-width: 1300px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .content-container {
+        flex-direction: column;
+    }
+
+    .left-container {
+        margin-bottom: 20px;
+    }
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .left-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .slide-show {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .left-container .article-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1 100%;
+        max-height: none;
+    }
+
+    .left-container .picture-container {
+        width: 100%;
+        margin-right: 0;
+    }
+
+
+}
+
 }
