@@ -1,0 +1,49 @@
+
+.left-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+}
+
+
+.left-container h1 {
+    color:#ffefd7;
+    flex-basis: 100%; 
+    width: 100%;
+    font-weight: 900;
+    text-shadow: 2px 2px black;
+    margin: 0px;
+    text-align: center;
+}
+
+.left-container h3 {
+    color: #ffefd7;
+    text-shadow: 2px 2px black;
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.hero-container {
+    background-color: #a49784;
+    width: 150px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    margin: 0px 10px 10px 0px;
+    position: relative;
+}
+
+.hero-container:hover {
+    transform: scale(1.1);
+}
+
+.hero-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
