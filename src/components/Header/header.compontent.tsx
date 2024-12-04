@@ -1,25 +1,14 @@
-import {Link, useNavigate} from "react-router-dom";
-import {HeaderButton, HeaderContainer} from "../Styles/header.styled.tsx";
-import {useEffect, useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { HeaderButton, HeaderContainer } from "../Styles/header.styled.tsx";
 
-
-export const Header = () =>{
-
+export const Header = ({ user, setUser }: { user: any; setUser: (user: any) => void }) => {
     const navigate = useNavigate();
-    const [user, setUser] = useState<any>(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("user");
         setUser(null);
         navigate("/");
-    }
+    };
 
     return (
         <header>
@@ -31,17 +20,16 @@ export const Header = () =>{
                             <div>[meno]{user.userName}</div>
                             <div>[email]{user.email}</div>
                         </span>
-                        <HeaderButton><Link to ="/pouzivatelia">Zobrazit pouzivatelov</Link></HeaderButton>
+                        <HeaderButton><Link to="/pouzivatelia">Zobrazit pouzivatelov</Link></HeaderButton>
                         <HeaderButton onClick={handleLogout}>Odhlasit</HeaderButton>
                     </>
-
                 ) : (
                     <>
-                        <HeaderButton><Link to={"/prihlasenie"}>Prihlasenie</Link></HeaderButton>
-                        <HeaderButton><Link to={"/registracia"}>Registracia </Link></HeaderButton>
+                        <HeaderButton><Link to="/prihlasenie">Prihlasenie</Link></HeaderButton>
+                        <HeaderButton><Link to="/registracia">Registracia </Link></HeaderButton>
                     </>
                 )}
             </HeaderContainer>
         </header>
-    )
-}
+    );
+};

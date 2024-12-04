@@ -7,6 +7,7 @@ import {
     TableRow,
     Paper,
     TextField,
+    Typography,
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,7 +17,6 @@ import {
     CancelButton,
     EditButton,
     DeleteButton,
-    ErrorTypography,
     HeaderTypography,
 } from '../Styles/userList.styled.tsx';
 
@@ -26,12 +26,11 @@ type User = {
     email: string;
 };
 
-export const UserList = () => {
+export const UserList = ({ user: loggedInUser, setUser }: { user: User; setUser: (user: User | null) => void }) => {
     const [users, setUsers] = useState<User[]>([]);
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [editingData, setEditingData] = useState<Partial<User>>({});
-    const loggedInUser = JSON.parse(localStorage.getItem("user") || "null");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -72,23 +71,21 @@ export const UserList = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update user');
+                throw new Error('Nepodarilo sa aktualizovat pouzivatela');
             }
 
             const updatedUser = await response.json();
+            setUsers((prevUsers) => prevUsers.map((user) => (user.id === id ? updatedUser : user)));
 
-            setUsers((prevUsers) =>
-                prevUsers.map((user) => (user.id === id ? updatedUser : user))
-            );
             if (loggedInUser.id === id) {
                 localStorage.setItem("user", JSON.stringify(updatedUser));
+                setUser(updatedUser);
             }
 
             setEditingUserId(null);
             setEditingData({});
-        } catch (error) {
-            console.error('Error updating user:', error);
-            setError('Nepodarilo sa aktualizovat pouzivatela');
+        } catch (err: any) {
+            setError(err.message);
         }
     };
 
@@ -99,117 +96,118 @@ export const UserList = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to delete user');
+                throw new Error('Nepodarilo sa odstranit pouzivatela');
             }
+
             setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+
             if (loggedInUser.id === id) {
                 localStorage.removeItem("user");
+                setUser(null);
                 navigate("/prihlasenie");
             }
-        } catch (error) {
-            console.error('Error deleting user:', error);
-            setError('Nepodarilo sa odstranit pouzivatela');
+        } catch (err: any) {
+            setError(err.message);
         }
     };
 
     const isEditable = (id: number) => loggedInUser && loggedInUser.id === id;
 
-    if (error) {
-        return <ErrorTypography>Error: {error}</ErrorTypography>;
-    }
-
     return (
         <StyledTableContainer>
             <Paper>
-            <HeaderTypography variant="h5">
-                Pouzivatelia
-            </HeaderTypography>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center"><strong>ID</strong></TableCell>
-                        <TableCell align="center"><strong>Používateľské Meno</strong></TableCell>
-                        <TableCell align="center"><strong>Email</strong></TableCell>
-                        <TableCell align="center"><strong>Akcie</strong></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {users.map((user) => (
-                        <TableRow key={user.id}>
-                            <TableCell align="center">{user.id}</TableCell>
-                            <TableCell align="center">
-                                {editingUserId === user.id ? (
-                                    <TextField
-                                        value={editingData.userName || ""}
-                                        onChange={(e) =>
-                                            setEditingData((prev) => ({
-                                                ...prev,
-                                                userName: e.target.value,
-                                            }))
-                                        }
-                                        size="small"
-                                    />
-                                ) : (
-                                    user.userName
-                                )}
-                            </TableCell>
-                            <TableCell align="center">
-                                {editingUserId === user.id ? (
-                                    <TextField
-                                        value={editingData.email || ""}
-                                        onChange={(e) =>
-                                            setEditingData((prev) => ({
-                                                ...prev,
-                                                email: e.target.value,
-                                            }))
-                                        }
-                                        size="small"
-                                    />
-                                ) : (
-                                    user.email
-                                )}
-                            </TableCell>
-                            <TableCell align="center">
-                                <ActionBox>
-                                    {isEditable(user.id) && editingUserId === user.id ? (
-                                        <>
-                                            <SaveButton
-                                                variant="contained"
-                                                onClick={() => handleEditSave(user.id)}
-                                            >
-                                                Ulozit
-                                            </SaveButton>
-                                            <CancelButton
-                                                variant="contained"
-                                                onClick={handleEditCancel}
-                                            >
-                                                Zrusit
-                                            </CancelButton>
-                                        </>
-                                    ) : (
-                                        isEditable(user.id) && (
-                                            <>
-                                                <EditButton
-                                                    variant="contained"
-                                                    onClick={() => handleEditStart(user)}
-                                                >
-                                                    Upravit
-                                                </EditButton>
-                                                <DeleteButton
-                                                    variant="contained"
-                                                    onClick={() => handleDelete(user.id)}
-                                                >
-                                                    Vymazat
-                                                </DeleteButton>
-                                            </>
-                                        )
-                                    )}
-                                </ActionBox>
-                            </TableCell>
+                <HeaderTypography variant="h5">Pouzivatelia</HeaderTypography>
+                {error && (
+                    <Typography color="error" align="center">
+                        {error}
+                    </Typography>
+                )}
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center"><strong>ID</strong></TableCell>
+                            <TableCell align="center"><strong>Používateľské Meno</strong></TableCell>
+                            <TableCell align="center"><strong>Email</strong></TableCell>
+                            <TableCell align="center"><strong>Akcie</strong></TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {users.map((user) => (
+                            <TableRow key={user.id}>
+                                <TableCell align="center">{user.id}</TableCell>
+                                <TableCell align="center">
+                                    {editingUserId === user.id ? (
+                                        <TextField
+                                            value={editingData.userName || ""}
+                                            onChange={(e) =>
+                                                setEditingData((prev) => ({
+                                                    ...prev,
+                                                    userName: e.target.value,
+                                                }))
+                                            }
+                                            size="small"
+                                        />
+                                    ) : (
+                                        user.userName
+                                    )}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {editingUserId === user.id ? (
+                                        <TextField
+                                            value={editingData.email || ""}
+                                            onChange={(e) =>
+                                                setEditingData((prev) => ({
+                                                    ...prev,
+                                                    email: e.target.value,
+                                                }))
+                                            }
+                                            size="small"
+                                        />
+                                    ) : (
+                                        user.email
+                                    )}
+                                </TableCell>
+                                <TableCell align="center">
+                                    <ActionBox>
+                                        {isEditable(user.id) && editingUserId === user.id ? (
+                                            <>
+                                                <SaveButton
+                                                    variant="contained"
+                                                    onClick={() => handleEditSave(user.id)}
+                                                >
+                                                    Ulozit
+                                                </SaveButton>
+                                                <CancelButton
+                                                    variant="contained"
+                                                    onClick={handleEditCancel}
+                                                >
+                                                    Zrusit
+                                                </CancelButton>
+                                            </>
+                                        ) : (
+                                            isEditable(user.id) && (
+                                                <>
+                                                    <EditButton
+                                                        variant="contained"
+                                                        onClick={() => handleEditStart(user)}
+                                                    >
+                                                        Upravit
+                                                    </EditButton>
+                                                    <DeleteButton
+                                                        variant="contained"
+                                                        onClick={() => handleDelete(user.id)}
+                                                    >
+                                                        Vymazat
+                                                    </DeleteButton>
+                                                </>
+                                            )
+                                        )}
+                                    </ActionBox>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </Paper>
         </StyledTableContainer>
     );
