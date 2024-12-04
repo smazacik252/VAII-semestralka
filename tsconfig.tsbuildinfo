@@ -1,0 +1,1 @@
+{"root":["./src/db.ts","./src/server.ts","./src/entities/User.ts","./src/routes/articles.ts","./src/routes/comments.ts","./src/routes/users.ts"],"version":"5.7.2"}

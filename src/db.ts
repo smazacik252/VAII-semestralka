@@ -1,10 +1,17 @@
-import { Pool } from 'pg';
-const pool = new Pool({
-    host: 'db',
-    port: 5432,
-    user: 'admin',
-    password: 'password',
-    database: 'db',
-})
+import "reflect-metadata";
+import {DataSource} from 'typeorm';
+import { User } from "./entities/User";
 
-export default pool;
+const connection = new DataSource({
+    type: "postgres",
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: 'password',
+    database: 'postgres',
+    logging: true,
+    synchronize: true,
+    entities: [User],
+});
+
+export default connection;
