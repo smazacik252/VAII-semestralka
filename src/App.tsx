@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {RegisterForm} from "./components/RegisterForm/registerForm.components.tsx";
+import {Header} from "./components/Header/header.compontent.tsx";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {UserList} from "./components/UserList/userList.component.tsx";
+import {LoginForm} from "./components/LoginForm/loginForm.component.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <Router>
+            <Header/>
+                <Routes>
+                    <Route path = "/"/>
+                    <Route path = "/prihlasenie" element ={<LoginForm/>}/>
+                    <Route path = "/registracia" element ={<RegisterForm/>}/>
+                    <Route path = "/pouzivatelia" element ={<UserList/>}/>
+                 </Routes>
+        </Router>
     </>
-  )
+  );
 }
 
 export default App
