@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import {IconButton, Paper, Typography} from "@mui/material";
-import {Form, FormButton, FormErrorAlert, FormSuccessAlert} from "../Styles/form.styled.tsx";
+import { IconButton, Paper, Typography } from "@mui/material";
+import { Form, FormButton, FormErrorAlert, FormSuccessAlert } from "../Styles/form.styled.tsx";
 import TextField from "@mui/material/TextField";
-import {FormContainer} from "../Styles/form.styled.tsx";
+import { FormContainer } from "../Styles/form.styled.tsx";
 import CloseIcon from "@mui/icons-material/Close";
-
 
 type RegisterFormInputs = {
     userName: string;
     email: string;
     password: string;
+    passwordAgain: string;
 };
 
 export const RegisterForm = () => {
@@ -22,6 +22,7 @@ export const RegisterForm = () => {
         handleSubmit,
         clearErrors,
         reset,
+        setError,
         formState: { errors },
     } = useForm<RegisterFormInputs>({
         mode: "onSubmit",
@@ -29,6 +30,11 @@ export const RegisterForm = () => {
 
     const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
         try {
+            if (data.password !== data.passwordAgain) {
+                setError("passwordAgain", { message: "Hesla sa nezhoduju" });
+                return;
+            }
+
             const response = await fetch('http://localhost:8000/users', {
                 method: 'POST',
                 headers: {
@@ -43,17 +49,12 @@ export const RegisterForm = () => {
             }
 
             setFormSuccess("Pouzivatel vytvoreny");
-            reset({
-                userName: "",
-                email: "",
-                password: "",
-            });
-
+            setFormError(null);
+            reset();
             const newUser = await response.json();
             console.log(newUser);
         } catch (error: any) {
             setFormError(error.message || 'Neocakavana chyba');
-            console.error(error);
         }
     };
 
@@ -63,19 +64,24 @@ export const RegisterForm = () => {
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     {formError && (
                         <FormErrorAlert
+                            severity="error"
                             action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={() => setFormError(null)}>
-                                <CloseIcon fontSize="small"/>
-                            </IconButton>
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => setFormError(null)}
+                                >
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
                             }
-                            ></FormErrorAlert>
+                        >
+                            <Typography>{formError}</Typography>
+                        </FormErrorAlert>
                     )}
                     {formSuccess && (
                         <FormSuccessAlert
+                            severity="success"
                             action={
                                 <IconButton
                                     aria-label="close"
@@ -92,8 +98,8 @@ export const RegisterForm = () => {
                     )}
                     <TextField
                         {...register("userName", {
-                            required: "Prosim zadaj pouzivatelske meno", },
-                        )}
+                            required: "Prosim zadaj pouzivatelske meno",
+                        })}
                         label="Pouzivatelske meno"
                         fullWidth
                         error={!!errors.userName}
@@ -138,6 +144,21 @@ export const RegisterForm = () => {
                         margin="normal"
                         onChange={() => {
                             clearErrors("password");
+                            setFormError(null);
+                        }}
+                    />
+                    <TextField
+                        {...register("passwordAgain", {
+                            required: "Prosim znova zadajte heslo",
+                        })}
+                        label="Heslo znova"
+                        type="password"
+                        fullWidth
+                        error={!!errors.passwordAgain}
+                        helperText={errors.passwordAgain?.message}
+                        margin="normal"
+                        onChange={() => {
+                            clearErrors("passwordAgain");
                             setFormError(null);
                         }}
                     />
