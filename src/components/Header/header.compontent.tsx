@@ -13,6 +13,9 @@ export const Header = ({ user, setUser }: { user: any; setUser: (user: any) => v
 
     return (
         <StyledHeader>
+            <div className="logo-container">
+                <img src="../img/header.png" alt="logo"/>
+            </div>
             <Navbar></Navbar>
         </StyledHeader>
     );
