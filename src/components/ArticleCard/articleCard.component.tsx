@@ -1,3 +1,4 @@
+import React from "react";
 import {ArticleCardLink, ArticleCardStyled} from "./articleCard.styled.tsx";
 
 type ArticleCardProps = {
@@ -15,7 +16,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ id, title, date, image
     const Heading = headingLevel;
 
     return (
-        <ArticleCardLink to={`/articles/${id}`}>
+        <ArticleCardLink to={`/clanky/${id}`}>
             <ArticleCardStyled className={className}>
                 <div className="img-container">
                     <img src={image} alt={title}/>

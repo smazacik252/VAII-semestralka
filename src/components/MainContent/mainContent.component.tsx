@@ -1,13 +1,13 @@
-import {RightPanel} from "../RightPanel/rightPanel.component.tsx";
-import {LeftPanel} from "../LeftPanel/leftPanel.component.tsx";
+import {LatestArticles} from "../LatestArticles/latestArticles.component.tsx";
 import {StyledMainContainer} from "./mainContent.styled.tsx";
+import {Highlights} from "../Highlights/highlights.component.tsx";
 
 export const MainComponent = () => {
     return (
         <>
             <StyledMainContainer>
-                <LeftPanel></LeftPanel>
-                <RightPanel></RightPanel>
+                <LatestArticles/>
+                <Highlights/>
             </StyledMainContainer>
         </>
 

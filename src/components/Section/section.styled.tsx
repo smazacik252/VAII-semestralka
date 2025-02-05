@@ -3,11 +3,11 @@ import {Container} from "@mui/material";
 
 export const StyledSection = styled(Container)`
     margin: 0;
-    padding: 0;
+    padding: 0!important;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    
+    align-items: stretch;
+    gap: 15px;
     h3 {
         margin: 0;
         padding: 20px;

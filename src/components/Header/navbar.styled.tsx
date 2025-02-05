@@ -4,6 +4,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import {Link} from "react-router-dom";
 
+
 export const NavbarContainer = styled(Container)`
     align-items: stretch;
     height: auto;
@@ -23,6 +24,7 @@ export const NavbarList = styled(List)`
     margin:0;
     align-items: stretch;
 `
+
 export const NavbarItem = styled(ListItem)`
     text-align: center;
     height: 100%;
@@ -44,8 +46,8 @@ export const NavbarLink = styled(Link)`
     align-items: center;
     color: #F5E4C1;
     &:hover {
-        box-shadow: 0px 5px 0px #F5E4C1;
-        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 0 #F5E4C1;
+        text-shadow: 2px 2px 2px black;
         background-color: rgba(245, 228, 193, 0.1);
     }
 `;

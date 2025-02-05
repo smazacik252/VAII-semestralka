@@ -9,9 +9,11 @@ export const HeroCardStyled = styled(Card)`
     flex-direction: column;
     margin: 0px 10px 10px 0px;
     position: relative;
+    padding: 0!important;
     
     &:hover {
         transform: scale(1.1);
+        transition: transform 0.3s ease;
     }
     .hero-portrait img {
         width: 100%;

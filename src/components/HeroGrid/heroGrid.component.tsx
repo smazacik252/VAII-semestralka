@@ -1,3 +1,4 @@
+import React from "react";
 import {HeroGridStyled} from "./heroGrid.styled.tsx";
 import {HeroCard} from "../HeroCard/heroCard.component.tsx";
 

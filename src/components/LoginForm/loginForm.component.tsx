@@ -1,9 +1,8 @@
 import { useState } from "react";
 import {useForm, SubmitHandler} from "react-hook-form";
-import {FormButton, FormContainer, FormErrorAlert, Form} from "../Styles/form.styled.tsx";
-import {IconButton, Paper, Typography} from "@mui/material";
+import {FormButton, FormContainer, FormErrorAlert, Form, TextFieldStyled} from "../Styles/form.styled.tsx";
+import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import TextField from "@mui/material/TextField";
 import {useNavigate} from "react-router-dom";
 
 type LoginFormInputs = {
@@ -53,64 +52,61 @@ export const LoginForm = () => {
 
     return (
         <FormContainer>
-            <Paper variant="outlined">
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    {formError && (
-                        <FormErrorAlert
-                            severity="error"
-                            action={
-                                <IconButton
-                                    aria-label="close"
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => setFormError(null)}
-                                >
-                                    <CloseIcon fontSize="small" />
-                                </IconButton>
-                            }
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                {formError && (
+                    <FormErrorAlert
+                        severity="error"
+                        action={
+                        <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => setFormError(null)}
                         >
-                            <Typography>{formError}</Typography>
-                        </FormErrorAlert>
-                    )}
-                    <TextField
-                        {...register("email", {
-                            required: "Prosim zadajte email",
-                            pattern: {
-                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: "Prosim zadajte validnu emailovu adresu",
-                            },
-                        })}
-                        label="Email"
-                        fullWidth
-                        error={!!errors.email}
-                        helperText={errors.email?.message}
-                        margin="normal"
-                        onChange={() => {
-                            clearErrors("email");
-                            setFormError(null);
-                        }}
-                    />
-                    <TextField
-                        {...register("password", {
-                            required: "Prosim zadajte heslo",
-
-                        })}
-                        label="Password"
-                        type="password"
-                        fullWidth
-                        error={!!errors.password}
-                        helperText={errors.password?.message}
-                        margin="normal"
-                        onChange={() => {
-                            clearErrors("password");
-                            setFormError(null);
-                        }}
-                    />
-                    <FormButton type="submit">
-                        Prihlasit
-                    </FormButton>
-                </Form>
-            </Paper>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    }
+                    >
+                        {formError}
+                    </FormErrorAlert>
+                )}
+                <TextFieldStyled
+                    {...register("email", {
+                        required: "Prosim zadajte email",
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: "Prosim zadajte validnu emailovu adresu",
+                        },
+                    })}
+                    label="Email"
+                    fullWidth
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    margin="normal"
+                    onChange={() => {
+                        clearErrors("email");
+                        setFormError(null);
+                    }}
+                />
+                <TextFieldStyled
+                    {...register("password", {
+                        required: "Prosim zadajte heslo",
+                    })}
+                    label="Password"
+                    type="password"
+                    fullWidth
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
+                    margin="normal"
+                    onChange={() => {
+                        clearErrors("password");
+                        setFormError(null);
+                    }}
+                />
+                <FormButton type="submit">
+                    Prihlasit
+                </FormButton>
+            </Form>
         </FormContainer>
     );
 }

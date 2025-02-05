@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { IconButton, Paper, Typography } from "@mui/material";
-import { Form, FormButton, FormErrorAlert, FormSuccessAlert } from "../Styles/form.styled.tsx";
-import TextField from "@mui/material/TextField";
+import { IconButton } from "@mui/material";
+import {Form, FormButton, FormErrorAlert, FormSuccessAlert, TextFieldStyled} from "../Styles/form.styled.tsx";
 import { FormContainer } from "../Styles/form.styled.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -60,7 +59,6 @@ export const RegisterForm = () => {
 
     return (
         <FormContainer>
-            <Paper variant="outlined">
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     {formError && (
                         <FormErrorAlert
@@ -76,7 +74,7 @@ export const RegisterForm = () => {
                                 </IconButton>
                             }
                         >
-                            <Typography>{formError}</Typography>
+                            {formError}
                         </FormErrorAlert>
                     )}
                     {formSuccess && (
@@ -93,10 +91,10 @@ export const RegisterForm = () => {
                                 </IconButton>
                             }
                         >
-                            <Typography>{formSuccess}</Typography>
+                            {formSuccess}
                         </FormSuccessAlert>
                     )}
-                    <TextField
+                    <TextFieldStyled
                         {...register("userName", {
                             required: "Prosim zadaj pouzivatelske meno",
                         })}
@@ -110,7 +108,7 @@ export const RegisterForm = () => {
                             setFormError(null);
                         }}
                     />
-                    <TextField
+                    <TextFieldStyled
                         {...register("email", {
                             required: "Prosim zadaj emailovu adresu",
                             pattern: {
@@ -128,7 +126,7 @@ export const RegisterForm = () => {
                             setFormError(null);
                         }}
                     />
-                    <TextField
+                    <TextFieldStyled
                         {...register("password", {
                             required: "Prosim zadaj svoje heslo",
                             minLength: {
@@ -147,7 +145,7 @@ export const RegisterForm = () => {
                             setFormError(null);
                         }}
                     />
-                    <TextField
+                    <TextFieldStyled
                         {...register("passwordAgain", {
                             required: "Prosim znova zadajte heslo",
                         })}
@@ -164,7 +162,6 @@ export const RegisterForm = () => {
                     />
                     <FormButton type="submit">Registruj</FormButton>
                 </Form>
-            </Paper>
         </FormContainer>
     );
 };

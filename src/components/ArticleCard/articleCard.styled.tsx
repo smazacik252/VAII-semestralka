@@ -4,16 +4,18 @@ import {Link} from "react-router-dom";
 
 export const ArticleCardStyled = styled(Card)`
     display:flex;
-    background-color: #417851;
+    background: rgba(0, 0, 0, 0.6);
     color:#F5E4C1;
+    font-size: 1.1rem;
+    border-radius: 8px;
     flex: 1;
     box-shadow: 0 5px 15px black;
-    margin: 15px;
     max-height: 160px;
     width: 100%;
     
     &:hover {
         transform: translate(10px, -10px) scale(1.01);
+        transition: transform 0.3s ease;
         box-shadow: 5px 5px 1px #F5E4C1;
         text-shadow: 2px 2px black;        
     }
@@ -24,14 +26,9 @@ export const ArticleCardStyled = styled(Card)`
         margin-right: 2%;
         overflow: hidden;
         text-overflow: ellipsis;
-        /*toto je dobugovane neviem preco */
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
         line-height: 1.5;
         max-height: calc(5em * 4);
-        /*box-shadow: 0px 10px 10px grey;*/
-        /*margin-top: 2%;*/
+
     }
     
     .img-container {
@@ -47,8 +44,6 @@ export const ArticleCardStyled = styled(Card)`
     }
 
     &.section-card {
-        width: 100%;
-        height: 40px;
         
         .text-container {
             display: flex;
@@ -57,12 +52,12 @@ export const ArticleCardStyled = styled(Card)`
         
         .img-container {
             width: 80px;
-            height: 40px;    
+            height: auto;    
         }
         
         .img-container img {
-            height: 100%;
             width: 100%;
+            height: auto;
             object-fit: cover;
         }
         
