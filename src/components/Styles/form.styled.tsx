@@ -7,15 +7,23 @@ export const Form = styled('form')`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px;
     min-width: 400px;
     min-height: 100px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #F5E4C1;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 8px;
 `;
 
 export const FormButton = styled(Button)`
     background-color: #417851;
+    color: #F5E4C1;
     margin: 16px 0 16px 0;
     font-size: 1.2rem;
+    font-family: 'inherit';
+    font-weight: bold;
 `
 
 export const FormContainer = styled(Container)`
@@ -23,7 +31,6 @@ export const FormContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     flex-grow: 1;
 `
 
@@ -35,10 +42,41 @@ export const StyledContainer = styled(Container)`
     margin: 0;
 `;
 
-export const StyledTextField = styled(TextField)`
-    margin: 0 0 10px 0;
-    font-size: 1.2rem;
-`;
+export const TextFieldStyled = styled(TextField)`
+    & .MuiOutlinedInput-root {
+        color: #F5E4C1;
+
+        & fieldset {
+            border-color: #417851;
+        }
+
+        &:hover fieldset {
+            border-color: #6DAF7E;
+        }
+
+        &.Mui-focused fieldset {
+            border-color: #9BCC92; /
+        }
+    }
+
+    & .MuiInputLabel-root {
+        font-size: 1.1rem;
+        font-family: 'inherit'; 
+        color: #F5E4C1;
+
+        &.Mui-focused {
+            color: #F5E4C1;
+        }
+    }
+    
+    & .MuiOutlinedInput-input {
+        color: #F5E4C1;
+    }
+
+    & .MuiFormHelperText-root {
+        color: #d32f2f;
+    }
+`
 
 
 export const FormErrorAlert = styled(Alert)`
@@ -77,7 +115,7 @@ FormButton.defaultProps = {
     size: "large",
 };
 
-StyledTextField.defaultProps = {
+TextFieldStyled.defaultProps = {
     id: "outlined",
     variant: "outlined",
 };
