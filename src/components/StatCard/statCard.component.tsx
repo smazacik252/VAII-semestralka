@@ -1,10 +1,17 @@
 import {StatCardStyled} from "./statCard.styled.tsx";
+import React from "react";
 
-export const StatCard = () => {
+type StatCardProps = {
+    statName: string;
+    statValue: number;
+}
+
+
+export const StatCard: React.FC<StatCardProps> = ({statName, statValue}) => {
   return(
       <StatCardStyled>
-          <h3 className="value">Value</h3>
-          <h3 className="name">Name</h3>
+          <h4 className="value">{statValue}</h4>
+          <h4 className="name">{statName}</h4>
       </StatCardStyled>
   );
 }
