@@ -33,15 +33,10 @@ export const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
                         </NavbarItem>
                     </>
                 )}
-                {isLoggedIn && role ==="admin" && (
-                    <>
-                        <NavbarItem>
-                            <NavbarLink to="/pouzivatelia">Sprava pouzivatelov</NavbarLink>
-                        </NavbarItem>
-                        <NavbarItem>
-                            <NavbarLink to="/clanky">Sprava clankov</NavbarLink>
-                        </NavbarItem>
-                    </>
+                {isLoggedIn && role !=="user" && (
+                    <NavbarItem>
+                        <NavbarLink to="/sprava">Sprava</NavbarLink>
+                    </NavbarItem>
                 )}
             </NavbarList>
         </NavbarContainer>

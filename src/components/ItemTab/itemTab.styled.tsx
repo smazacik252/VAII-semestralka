@@ -39,6 +39,7 @@ export const TabStyled = styled(Tab)`
         color: black;
         font-weight: bold;
         transform: scale(1.1);
+        background-color: #F5E4C1;
         transition: transform 0.3s ease, color 0.3s ease, font-weight 0.3s ease;
     }
 `
