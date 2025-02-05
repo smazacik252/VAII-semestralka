@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {Entity, BaseEntity, Column, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate} from "typeorm";
 
 @Entity()
 export class Hero extends BaseEntity {
@@ -8,6 +8,9 @@ export class Hero extends BaseEntity {
 
     @Column({ unique: true })
     name: string = '';
+
+    @Column({ unique: true })
+    urlName: string = '';
 
     @Column()
     portrait: string = '';
@@ -26,5 +29,12 @@ export class Hero extends BaseEntity {
 
     @Column({ type: "json"})
     statsVitality: { [key: string]: number } = {};
+
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    normalizeName() {
+        this.urlName = this.name.toLowerCase().replace(/\s+/g, "-");
+    }
 
 }
