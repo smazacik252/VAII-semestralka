@@ -3,14 +3,17 @@ import {FormButton} from "../Styles/form.styled.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store.tsx";
 import {logout} from "../../store/userSlice.tsx";
+import {useNavigate} from "react-router-dom";
 
 export const UserCard = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const user = useSelector((state: RootState) => state.user);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         dispatch(logout());
+        navigate("/");
     };
 
     return (
