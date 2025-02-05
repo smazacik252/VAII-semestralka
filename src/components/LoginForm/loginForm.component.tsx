@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {login} from "../../store/userSlice.tsx";
 
 type LoginFormInputs = {
-    email: string;
+    userName: string;
     password: string;
 };
 
@@ -75,20 +75,16 @@ export const LoginForm = () => {
                     </FormErrorAlert>
                 )}
                 <TextFieldStyled
-                    {...register("email", {
-                        required: "Prosim zadajte email",
-                        pattern: {
-                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                            message: "Prosim zadajte validnu emailovu adresu",
-                        },
+                    {...register("userName", {
+                        required: "Prosim zadajte pouzivatelske meno",
                     })}
-                    label="Email"
+                    label="Pouzivatelske meno"
                     fullWidth
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
+                    error={!!errors.userName}
+                    helperText={errors.userName?.message}
                     margin="normal"
                     onChange={() => {
-                        clearErrors("email");
+                        clearErrors("userName");
                         setFormError(null);
                     }}
                 />
