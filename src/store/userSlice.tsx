@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 interface User {
+    id: number;
     userName: string;
     email: string;
     role: string;
@@ -8,6 +9,7 @@ interface User {
 }
 
 const emptyState: User = {
+    id: -1,
     userName: "",
     email: "",
     role: "",
