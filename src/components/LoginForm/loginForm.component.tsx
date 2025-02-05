@@ -4,6 +4,8 @@ import {FormButton, FormContainer, FormErrorAlert, Form, TextFieldStyled} from "
 import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {login} from "../../store/userSlice.tsx";
 
 type LoginFormInputs = {
     email: string;
@@ -13,6 +15,7 @@ type LoginFormInputs = {
 
 export const LoginForm = () => {
 
+    const dispatch = useDispatch();
     const [formError, setFormError] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -39,8 +42,10 @@ export const LoginForm = () => {
                 throw new Error(responseData.message || "Prihlasenie sa nepodarilo");
             }
 
+            dispatch(
+                login({response: responseData.user})
+            );
             console.log(responseData.user);
-            localStorage.setItem("user", JSON.stringify(responseData.user));
             setFormError(null);
             navigate("/");
         } catch (error: any) {
