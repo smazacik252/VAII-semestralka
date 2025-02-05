@@ -1,14 +1,13 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import {Header} from "../Header/header.compontent.tsx";
 import {ContentContainer, LayoutStyled, LeftContainer, RightContainer} from "./layout.styled.tsx";
 import {Section} from "../Section/section.component.tsx";
 
 
-export const Layout = ({ user, setUser }: { user: any; setUser: React.Dispatch<React.SetStateAction<any>> }) => {
+export const Layout = () => {
     return (
         <LayoutStyled>
-            <Header user={user} setUser={setUser} />
+            <Header/>
             <ContentContainer>
                 <LeftContainer>
                     <Outlet />
