@@ -1,8 +1,13 @@
+import React from "react";
 import {NavbarContainer, NavbarItem, NavbarLink, NavbarList} from "../Header/navbar.styled.tsx";
 
-export const Navbar = () => {
+type NavbarProps = {
+    isLoggedIn: boolean;
+};
+
+export const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
     return (
-        <NavbarContainer maxWidth={false}>
+        <NavbarContainer >
             <NavbarList>
                 <NavbarItem>
                     <NavbarLink to="/">Domov</NavbarLink>
@@ -13,12 +18,16 @@ export const Navbar = () => {
                 <NavbarItem>
                     <NavbarLink to="/hrdinovia">Hrdinovia</NavbarLink>
                 </NavbarItem>
-                <NavbarItem>
-                    <NavbarLink to="/prihlasenie">Prihlásenie sa</NavbarLink>
-                </NavbarItem>
-                <NavbarItem>
-                    <NavbarLink to="/registracia">Registrovať sa</NavbarLink>
-                </NavbarItem>
+                {!isLoggedIn && (
+                    <>
+                        <NavbarItem>
+                            <NavbarLink to="/prihlasenie">Prihlásenie sa</NavbarLink>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <NavbarLink to="/registracia">Registrovať sa</NavbarLink>
+                        </NavbarItem>
+                    </>
+                )}
             </NavbarList>
         </NavbarContainer>
     );

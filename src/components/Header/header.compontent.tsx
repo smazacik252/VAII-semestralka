@@ -1,22 +1,41 @@
-import { Link, useNavigate } from "react-router-dom";
-import {HeaderButton, HeaderContainer, StyledHeader} from "../Styles/header.styled.tsx";
+import { StyledHeader } from "../Styles/header.styled.tsx";
 import {Navbar} from "../Navbar/navbar.component.tsx";
+import {UserCard} from "../UserCard/userCard.component.tsx";
+import {useEffect, useState} from "react";
 
-export const Header = ({ user, setUser }: { user: any; setUser: (user: any) => void }) => {
-    const navigate = useNavigate();
+type User = {
+    userName: string,
+}
+
+export const Header =  ()  => {
+    const [user, setUser] = useState<User | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("user");
         setUser(null);
-        navigate("/");
+        setIsLoggedIn(false);
     };
 
     return (
         <StyledHeader>
-            <div className="logo-container">
-                <img src="../img/header.png" alt="logo"/>
+            <div className="upper-container">
+                <div className="logo-container">
+                    <img src="../img/header.png" alt="logo"/>
+                </div>
+                <div className="user-card-container">
+                    {user ? <UserCard user={user} onLogout={handleLogout} /> : <></>}
+                </div>
             </div>
-            <Navbar></Navbar>
+            <Navbar isLoggedIn={isLoggedIn}></Navbar>
         </StyledHeader>
     );
 };
