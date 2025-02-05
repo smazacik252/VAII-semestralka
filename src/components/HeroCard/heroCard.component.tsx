@@ -1,3 +1,4 @@
+import React from "react";
 import {HeroCardStyled} from "./heroCard.styled.tsx";
 import {Link} from "react-router-dom";
 

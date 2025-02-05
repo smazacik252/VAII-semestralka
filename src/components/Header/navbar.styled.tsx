@@ -9,7 +9,6 @@ export const NavbarContainer = styled(Container)`
     align-items: stretch;
     height: auto;
     margin-bottom: 10px;
-    /*box-shadow: 0px 5px 15px black;*/
 `
 
 export const NavbarList = styled(List)`
