@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import connection from './db';
 import userRoutes from "./routes/user.routes";
 import cors from 'cors';
+import heroRoutes from "./routes/hero.routes";
 
 const port = 8000;
 const app = express();
@@ -14,6 +15,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 app.use(cors());
 app.use('/users', userRoutes);
+app.use('/heroes', heroRoutes)
 
 
 const startServer = async () => {
