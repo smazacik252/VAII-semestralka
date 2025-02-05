@@ -7,7 +7,7 @@ import {
     TableRow,
     Paper,
     TextField,
-    Typography,
+    Typography, Alert,
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import {
@@ -19,6 +19,8 @@ import {
     DeleteButton,
     HeaderTypography,
 } from '../Styles/userList.styled.tsx';
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store.tsx";
 
 type User = {
     id: number;
@@ -26,12 +28,39 @@ type User = {
     email: string;
 };
 
-export const UserList = ({ user: loggedInUser, setUser }: { user: User; setUser: (user: User | null) => void }) => {
+export const UserList = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [editingData, setEditingData] = useState<Partial<User>>({});
+    const [countdown, setCountdown] = useState<number>(5);
+
+    const user = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user || user.role !== "admin") {
+            const intervalId = setInterval(() => {
+                setCountdown((prevCountdown) => {
+                    if (prevCountdown <= 1) {
+                        clearInterval(intervalId);
+                        navigate("/");
+                        return 0;
+                    }
+                    return prevCountdown - 1;
+                });
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
+    }, [user, navigate]);
+
+    if (!user || user.role !== "admin") {
+        return (
+            <Alert severity="warning">
+                Neoprávnený prístup. Presmerovanie za {countdown} sekúnd.
+            </Alert>
+        );
+    }
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -77,9 +106,8 @@ export const UserList = ({ user: loggedInUser, setUser }: { user: User; setUser:
             const updatedUser = await response.json();
             setUsers((prevUsers) => prevUsers.map((user) => (user.id === id ? updatedUser : user)));
 
-            if (loggedInUser.id === id) {
+            if (user.id === id) {
                 localStorage.setItem("user", JSON.stringify(updatedUser));
-                setUser(updatedUser);
             }
 
             setEditingUserId(null);
@@ -101,17 +129,10 @@ export const UserList = ({ user: loggedInUser, setUser }: { user: User; setUser:
 
             setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
 
-            if (loggedInUser.id === id) {
-                localStorage.removeItem("user");
-                setUser(null);
-                navigate("/prihlasenie");
-            }
         } catch (err: any) {
             setError(err.message);
         }
     };
-
-    const isEditable = (id: number) => loggedInUser && loggedInUser.id === id;
 
     return (
         <StyledTableContainer>
@@ -169,7 +190,7 @@ export const UserList = ({ user: loggedInUser, setUser }: { user: User; setUser:
                                 </TableCell>
                                 <TableCell align="center">
                                     <ActionBox>
-                                        {isEditable(user.id) && editingUserId === user.id ? (
+                                        {editingUserId === user.id ? (
                                             <>
                                                 <SaveButton
                                                     variant="contained"
@@ -185,7 +206,7 @@ export const UserList = ({ user: loggedInUser, setUser }: { user: User; setUser:
                                                 </CancelButton>
                                             </>
                                         ) : (
-                                            isEditable(user.id) && (
+                                             (
                                                 <>
                                                     <EditButton
                                                         variant="contained"
