@@ -34,7 +34,7 @@ export default class HeroController {
 
     public getHeroByName = async (req: Request, res: Response) => {
         try {
-            const hero = await this.heroRepository.findOneBy({name: req.params.name});
+            const hero = await this.heroRepository.findOneBy({urlName: req.params.urlName});
 
             if(!hero) {
                 res.status(404).json({message: 'Hero not found'});
