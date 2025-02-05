@@ -18,7 +18,7 @@ export const StatCardStyled = styled(Card)`
         color: #F5E4C1;
     }
     
-   h3 {
+   h4 {
        margin: 0;
        padding: 0;
    } 
