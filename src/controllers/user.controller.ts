@@ -8,12 +8,12 @@ export default class UserController {
 
 
     public login = async (req: Request, res: Response) => {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            res.status(400).json({ message: "Email and password are required" });
+        const { userName, password } = req.body;
+        if (!userName || !password) {
+            res.status(400).json({ message: "User name and password are required" });
         } else {
             try {
-                const user = await this.userRepository.findOneBy({email});
+                const user = await this.userRepository.findOneBy({userName});
 
                 if (!user) {
                     res.status(404).json({message: "User not found"});
