@@ -1,23 +1,30 @@
 import {Entity, BaseEntity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
-import {Comment} from "./Comment";
+import { Comment } from "./Comment";
 
 @Entity()
 export class Article extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number = 0;
 
-    @Column({ unique: true })
-    author: string = '';
+    @Column()
+    author: string = "";
 
-    @Column({type : "date", default : () => "CURRENT_DATE"})
-    createdAt: Date = new Date();
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    createdAt: Date | undefined;
+
 
     @Column()
-    title: string = '';
+    title: string = "";
 
     @Column()
-    text: string = '';
+    summary: string = "";
 
-    @OneToMany(() => Comment, (comment) => comment.article)
-    comments: Comment[] = [];
+    @Column({type: "text"})
+    text: string = "";
+
+    @Column()
+    imagePath: string = "";
+
+    @OneToMany(() => Comment, (comment) => comment.article, { cascade: true })
+    comments: Comment[] | undefined;
 }
