@@ -22,6 +22,10 @@ export const NavbarList = styled(List)`
     padding:0;
     margin:0;
     align-items: stretch;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `
 
 export const NavbarItem = styled(ListItem)`
@@ -37,8 +41,8 @@ export const NavbarItem = styled(ListItem)`
 
 export const NavbarLink = styled(Link)`
     width: 100%;
-    height: 100%;
-    padding: 15px;
+    min-height:50px;
+    
     text-decoration: none;
     display: flex;
     justify-content: center;

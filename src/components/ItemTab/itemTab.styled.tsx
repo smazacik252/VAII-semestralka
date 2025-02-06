@@ -13,10 +13,6 @@ export const ItemTabContainer = styled(Container)`
         margin: 0 0 15px 0;
         text-align: center;
     }
-
-    & .MuiTabs-flexContainer {
-        gap: 15px; 
-    }
 `
 
 export const TabStyled = styled(Tab)`
@@ -24,11 +20,11 @@ export const TabStyled = styled(Tab)`
     font-weight: bold;
     color:#F5E4C1;
     background: rgba(0, 0, 0, 0.6);
-    font-size: 1.1rem;
+    font-size: clamp(0.4rem, 2vw, 1.2rem);
+    margin: 0 10px;
     border-radius: 8px;
     box-shadow: 0 5px 15px black;
     flex: 1;
-    gap: 10px;
 
     &:hover {
         transform: scale(1.01);

@@ -1,8 +1,10 @@
 import {Tabs} from "@mui/material";
 import React, {SyntheticEvent} from "react";
 import {ItemTabContainer, TabStyled} from "../ItemTab/itemTab.styled.tsx";
-import {UserList} from "../UserList/userList.component.tsx";
-import {HeroesList} from "../HeroesList/heroesList.component.tsx";
+import {UserList} from "../ListComponents/userList.component.tsx";
+import {HeroesList} from "../ListComponents/heroesList.component.tsx";
+import {ItemsList} from "../ListComponents/itemsList.component.tsx";
+import {ArticlesList} from "../ListComponents/articleList.tsx";
 
 export const ManagmentTab = () => {
 
@@ -19,13 +21,11 @@ export const ManagmentTab = () => {
                 <TabStyled label="Clanky"/>
                 <TabStyled label="Predmety"/>
                 <TabStyled label="Hrdinovia"/>
-                <TabStyled label="Obrazky"/>
             </Tabs>
             {value === 0 && <UserList/>}
-            {value === 1 && <UserList/>}
-            {value === 2 && <UserList/>}
+            {value === 1 && <ArticlesList/>}
+            {value === 2 && <ItemsList/>}
             {value === 3 && <HeroesList/>}
-            {value === 4 && <UserList/>}
         </ItemTabContainer>
     );
 }

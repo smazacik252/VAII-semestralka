@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {HeroGridStyled} from "./heroGrid.styled.tsx";
-import {HeroCard} from "../HeroCard/heroCard.component.tsx";
+import {HeroCard} from "../CardComponents/heroCard.component.tsx";
 import {Alert, CircularProgress} from "@mui/material";
 
 type Hero = {
@@ -8,7 +8,6 @@ type Hero = {
     name: string;
     portrait: string;
 };
-
 
 export const HeroGrid: React.FC = () => {
 

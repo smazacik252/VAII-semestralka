@@ -1,57 +1,95 @@
-import {Tabs} from "@mui/material";
-import React, {SyntheticEvent} from "react";
-import {ItemCard, ItemsContainer, ItemTabContainer, TabStyled} from "./itemTab.styled.tsx";
+import {SyntheticEvent, useEffect, useState } from "react";
+import {Tabs, Tooltip} from "@mui/material";
+import {
+    ItemCard,
+    ItemsContainer,
+    ItemTabContainer,
+    TabStyled
+} from "./itemTab.styled.tsx";
 
-const weaponItems = [
-    { name: "Basic Magazine" },
-    { name: "Close Quarters" },
-    { name: "Headshot Booster" },
-    { name: "Fleetfoot" },
-];
-
-const vitalityItems = [
-    { name: "Health Booster" },
-    { name: "Shield Upgrade" },
-    { name: "Regeneration Aura" },
-];
-
-const spiritItems = [
-    { name: "Soul Harvest" },
-    { name: "Mystic Shield" },
-    { name: "Shadow Veil", },
-];
-
+type Item = {
+    name: string;
+    description: string;
+    price: string;
+    tag?: string;
+};
 
 export const ItemTab = () => {
+    const [value, setValue] = useState<number>(0);
 
-    const [value, setValue] = React.useState<number>(0);
+    const [weaponItems, setWeaponItems] = useState<Item[]>([]);
+    const [vitalityItems, setVitalityItems] = useState<Item[]>([]);
+    const [spiritItems, setSpiritItems] = useState<Item[]>([]);
 
     const handleChange = (_: SyntheticEvent, newValue: number) => {
         setValue(newValue);
-    }
+    };
 
-    const renderItems = (items) => (
+    useEffect(() => {
+        let type = "";
+        switch (value) {
+            case 0:
+                type = "weapon";
+                break;
+            case 1:
+                type = "vitality";
+                break;
+            case 2:
+                type = "spirit";
+                break;
+        }
+
+        const fetchItems = async () => {
+            try {
+                const res = await fetch(`http://localhost:8000/items/type/${type}`);
+                if (!res.ok) throw new Error(`Nepodarilo sa nacitat predmety typu:${type}`);
+                const data = await res.json();
+
+                if (type === "weapon") setWeaponItems(data);
+                if (type === "vitality") setVitalityItems(data);
+                if (type === "spirit") setSpiritItems(data);
+
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchItems();
+    }, [value]);
+
+    const renderItems = (items: Item[]) => (
         <ItemsContainer>
             {items.map((item, index) => (
-                <ItemCard key={index}>
-                    <div className="name">{item.name}</div>
-                    {item.tag && <div className="tag">{item.tag}</div>}
-                </ItemCard>
+                <Tooltip
+                    key={index}
+                    title={`${item.description}\nCena: ${item.price}`}
+
+                >
+                    <ItemCard>
+                        <div className="name">{item.name}</div>
+                        {item.tag && <div className="tag">{item.tag}</div>}
+                    </ItemCard>
+                </Tooltip>
             ))}
         </ItemsContainer>
     );
 
-    return(
+    return (
         <ItemTabContainer>
             <h1>Predmety</h1>
-            <Tabs value={value} onChange={handleChange} sx={{"& .MuiTabs-indicator": {backgroundColor: "transparent"}}}>
-                <TabStyled label="Weapon" sx={{"&.Mui-selected": {backgroundColor: "#EC981A"}}}/>
-                <TabStyled label="Vitality" sx={{"&.Mui-selected": {backgroundColor: "#7CBB1E"}}}/>
-                <TabStyled label="Spirit" sx={{"&.Mui-selected": {backgroundColor: "#CE91FF"}}}/>
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                sx={{ "& .MuiTabs-indicator": { backgroundColor: "transparent" } }}
+            >
+                <TabStyled label="Weapon" sx={{ "&.Mui-selected": { backgroundColor: "#EC981A" } }} />
+                <TabStyled label="Vitality" sx={{ "&.Mui-selected": { backgroundColor: "#7CBB1E" } }} />
+                <TabStyled label="Spirit" sx={{ "&.Mui-selected": { backgroundColor: "#CE91FF" } }} />
             </Tabs>
+
             {value === 0 && renderItems(weaponItems)}
             {value === 1 && renderItems(vitalityItems)}
             {value === 2 && renderItems(spiritItems)}
         </ItemTabContainer>
     );
-}
+};

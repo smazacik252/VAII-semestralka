@@ -1,12 +1,9 @@
-import { StyledHeader } from "../Styles/header.styled.tsx";
-import {Navbar} from "../Navbar/navbar.component.tsx";
-import {UserCard} from "../UserCard/userCard.component.tsx";
-import {useSelector} from "react-redux";
-import {RootState} from "../../store/store.tsx";
+import { StyledHeader } from "./header.styled.tsx";
+import {Navbar} from "../LayoutComponents/Navbar/navbar.component.tsx";
+
+
 
 export const Header =  ()  => {
-
-    const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
 
     return (
         <StyledHeader>
@@ -14,11 +11,8 @@ export const Header =  ()  => {
                 <div className="logo-container">
                     <img src="../img/header.png" alt="logo"/>
                 </div>
-                <div className="user-card-container">
-                    {isLoggedIn ? <UserCard/> : <></>}
-                </div>
             </div>
-            <Navbar isLoggedIn={isLoggedIn}></Navbar>
+            <Navbar/>
         </StyledHeader>
     );
 };
