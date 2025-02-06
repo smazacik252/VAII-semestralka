@@ -1,16 +1,13 @@
 import { Request, Response } from 'express';
 import { User } from '../entities/User';
 import connection from '../db';
+import bcrypt from 'bcrypt';
 
 export default class UserController {
     private userRepository = connection.getRepository(User);
 
     public login = async (req: Request, res: Response): Promise<void> => {
         const { userName, password } = req.body;
-        if (!userName || !password) {
-            res.status(400).json({ message: 'Meno používateľa a heslo sú povinné' });
-            return;
-        }
 
         try {
             const user = await this.userRepository.findOneBy({ userName });
@@ -18,7 +15,9 @@ export default class UserController {
                 res.status(404).json({ message: 'Používateľ nebol nájdený' });
                 return;
             }
-            if (user.password !== password) {
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
                 res.status(401).json({ message: 'Nesprávne prihlasovacie údaje' });
                 return;
             }
@@ -60,9 +59,12 @@ export default class UserController {
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const user = this.userRepository.create(req.body);
+            const {userName, password} = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = this.userRepository.create({userName, password: hashedPassword});
             const savedUser = await this.userRepository.save(user);
-            res.status(201).json(savedUser);
+            const { password: _, ...userData } = savedUser;
+            res.status(201).json(userData);
         } catch (error) {
             console.error('Chyba pri vytváraní používateľa:', error);
             res.status(500).json({ message: 'Vnútorná chyba servera' });
