@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_DB: db
+  app:
+    depends_on:
+      - db
+    image: my-node-app
+    ports:
+      - 8000:8000
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./node_modules:/usr/src/app/node_modules
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
