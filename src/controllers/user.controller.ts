@@ -1,102 +1,101 @@
-import {Request, Response} from 'express'
-import {User} from "../entities/User";
+import { Request, Response } from 'express';
+import { User } from '../entities/User';
 import connection from '../db';
 
 export default class UserController {
-
     private userRepository = connection.getRepository(User);
 
-
-    public login = async (req: Request, res: Response) => {
+    public login = async (req: Request, res: Response): Promise<void> => {
         const { userName, password } = req.body;
         if (!userName || !password) {
-            res.status(400).json({ message: "User name and password are required" });
-        } else {
-            try {
-                const user = await this.userRepository.findOneBy({userName});
-
-                if (!user) {
-                    res.status(404).json({message: "User not found"});
-                } else if (user.password !== password) {
-                    res.status(401).json({message: "Invalid credentials"});
-                } else {
-                    const { password: _, ...userData } = user;
-                    res.status(200).json({message: "Login successful", user: userData});
-                }
-
-            } catch (error) {
-                console.error("Error during login:", error);
-                res.status(500).json({message: "Internal server error"});
-            }
+            res.status(400).json({ message: 'Meno používateľa a heslo sú povinné' });
+            return;
         }
-    }
 
-    public getAll = async (req: Request, res: Response) => {
+        try {
+            const user = await this.userRepository.findOneBy({ userName });
+            if (!user) {
+                res.status(404).json({ message: 'Používateľ nebol nájdený' });
+                return;
+            }
+            if (user.password !== password) {
+                res.status(401).json({ message: 'Nesprávne prihlasovacie údaje' });
+                return;
+            }
+
+            const { password: _, ...userData } = user;
+            res.status(200).json({
+                message: 'Prihlásenie úspešné',
+                user: userData
+            });
+        } catch (error) {
+            console.error('Chyba počas prihlasovania:', error);
+            res.status(500).json({ message: 'Vnútorná chyba servera' });
+        }
+    };
+
+    public getAll = async (req: Request, res: Response): Promise<void> => {
         try {
             const users = await this.userRepository.find();
             res.json(users);
         } catch (error) {
-            console.error('Error fetching users:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            console.error('Chyba pri načítaní používateľov:', error);
+            res.status(500).json({ message: 'Vnútorná chyba servera' });
         }
-    }
+    };
 
-    public getUserById = async (req: Request, res: Response)   => {
+    public getUserById = async (req: Request, res: Response): Promise<void> => {
         try {
-            const user = await this.userRepository.findOneBy({id: parseInt(req.params.id)});
-
-            if(!user) {
-                 res.status(404).json({message: 'User not found'});
-            } else {
-                res.json(user);
+            const user = await this.userRepository.findOneBy({ id: parseInt(req.params.id, 10) });
+            if (!user) {
+                res.status(404).json({ message: 'Používateľ nebol nájdený' });
+                return;
             }
+            res.json(user);
         } catch (error) {
-            console.error('Error fetching user:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            console.error('Chyba pri načítaní používateľa:', error);
+            res.status(500).json({ message: 'Vnútorná chyba servera' });
         }
-    }
+    };
 
-    public createUser = async (req: Request, res: Response)  => {
+    public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
             const user = this.userRepository.create(req.body);
             const savedUser = await this.userRepository.save(user);
             res.status(201).json(savedUser);
         } catch (error) {
-            console.error('Error creating user:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            console.error('Chyba pri vytváraní používateľa:', error);
+            res.status(500).json({ message: 'Vnútorná chyba servera' });
         }
-    }
+    };
 
-    public updateUser = async (req: Request, res: Response) => {
+    public updateUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const user = await this.userRepository.findOneBy({id: parseInt(req.params.id)});
-
-            if(!user) {
-                res.status(404).json({message: 'User not found'});
-            } else {
-                this.userRepository.merge(user, req.body);
-                const updateUser = await this.userRepository.save(user);
-                res.json(updateUser);
+            const user = await this.userRepository.findOneBy({ id: parseInt(req.params.id, 10) });
+            if (!user) {
+                res.status(404).json({ message: 'Používateľ nebol nájdený' });
+                return;
             }
+            this.userRepository.merge(user, req.body);
+            const updatedUser = await this.userRepository.save(user);
+            res.json(updatedUser);
         } catch (error) {
-            console.error('Error updating user:', error);
-            res.status(500).json({message: 'Internal server error'});
+            console.error('Chyba pri úprave používateľa:', error);
+            res.status(500).json({ message: 'Vnútorná chyba servera' });
         }
-    }
+    };
 
-    public deleteUser = async (req: Request, res: Response)  => {
+    public deleteUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const result = await this.userRepository.delete(parseInt(req.params.id));
-
+            const result = await this.userRepository.delete(parseInt(req.params.id, 10));
             if (result.affected === 0) {
-                res.status(404).json({message: 'User not found'});
-            } else {
-                res.status(204).send();
+                res.status(404).json({ message: 'Používateľ nebol nájdený' });
+                return;
             }
-
+            res.status(204).send();
         } catch (error) {
-            console.error('Error deleting user:', error);
-            res.status(500).json({message:'Internal server error'});
+            console.error('Chyba pri mazaní používateľa:', error);
+            res.status(500).json({ message: 'Vnútorná chyba servera' });
         }
-    }
+    };
 }

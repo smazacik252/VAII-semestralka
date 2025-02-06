@@ -1,15 +1,19 @@
-import {Router} from 'express';
-import UserController from "../controllers/user.controller";
+import { Router } from 'express';
+import UserController from '../controllers/user.controller';
+import {
+    createUserValidator,
+    loginValidator,
+    userIdValidator
+} from '../validators/userValidator';
+import { validateRequest } from '../middleware/validateRequest';
 
-
-const router = Router();
 const userController = new UserController();
+const router = Router();
 
+router.post('/login', loginValidator, validateRequest, userController.login);
+router.post('/', createUserValidator, validateRequest,userController.createUser);
 router.get('/', userController.getAll);
-router.get('/:id', userController.getUserById);
-router.post('/', userController.createUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
-router.post("/login", userController.login);
+router.get('/:id', userIdValidator, validateRequest, userController.getUserById);
+router.put('/:id', userIdValidator, validateRequest, userController.updateUser);
 
 export default router;
