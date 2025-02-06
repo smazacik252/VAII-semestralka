@@ -6,11 +6,11 @@ import {validateRequest} from "../middleware/validateRequest";
 const router = express.Router();
 const commentController = new CommentController();
 
-router.get('/comments', commentController.getAll);
-router.get('/comments/:id', validateCommentId, validateRequest, commentController.getCommentById);
+router.get('/', commentController.getAll);
+router.get('/:id', validateCommentId, validateRequest, commentController.getCommentById);
 router.get('/articles/:articleId/comments', validateArticleId, validateRequest, commentController.getCommentsByArticleId);
-router.post('/comments', createCommentValidator, validateRequest, commentController.createComment);
-router.put('/comments/:id', validateCommentId, updateCommentValidator, validateRequest, commentController.updateComment);
-router.delete('/comments/:id', validateCommentId, validateRequest, commentController.deleteComment);
+router.post('/', createCommentValidator, validateRequest, commentController.createComment);
+router.put('/:id', validateCommentId, updateCommentValidator, validateRequest, commentController.updateComment);
+router.delete('/:id', validateCommentId, validateRequest, commentController.deleteComment);
 
 export default router;

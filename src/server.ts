@@ -6,6 +6,7 @@ import cors from 'cors';
 import heroRoutes from "./routes/hero.routes";
 import itemRoutes from "./routes/item.routes";
 import articleRoutes from "./routes/article.routes";
+import commentRoutes from "./routes/comment.routes";
 
 const port = 8000;
 const app = express();
@@ -20,6 +21,7 @@ app.use('/users', userRoutes);
 app.use('/heroes', heroRoutes);
 app.use('/items', itemRoutes);
 app.use('/articles', articleRoutes);
+app.use('/comments', commentRoutes);
 
 
 const startServer = async () => {
