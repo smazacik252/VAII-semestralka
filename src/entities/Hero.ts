@@ -8,7 +8,7 @@ export class Hero extends BaseEntity {
     @Column({ unique: true })
     name: string = '';
 
-    @Column({ unique: true })
+    @Column()
     urlName: string = '';
 
     @Column()
