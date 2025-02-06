@@ -2,6 +2,7 @@ import {Tabs} from "@mui/material";
 import React, {SyntheticEvent} from "react";
 import {ItemTabContainer, TabStyled} from "../ItemTab/itemTab.styled.tsx";
 import {UserList} from "../UserList/userList.component.tsx";
+import {HeroesList} from "../HeroesList/heroesList.component.tsx";
 
 export const ManagmentTab = () => {
 
@@ -23,7 +24,7 @@ export const ManagmentTab = () => {
             {value === 0 && <UserList/>}
             {value === 1 && <UserList/>}
             {value === 2 && <UserList/>}
-            {value === 3 && <UserList/>}
+            {value === 3 && <HeroesList/>}
             {value === 4 && <UserList/>}
         </ItemTabContainer>
     );
